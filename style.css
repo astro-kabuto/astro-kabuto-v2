@@ -259,4 +259,8 @@ body{
 .lightbox img.zoomed:active {
   cursor: grabbing;
 }
+/* Pinch zoom uses top-left origin for math */
+.lightbox img{
+  transform-origin: 0 0;
+}
 

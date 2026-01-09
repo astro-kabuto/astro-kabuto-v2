@@ -140,26 +140,39 @@
     handleSwipe();
   }, { passive: true });
   // --- Zoom (double click / double tap) + drag to pan ---
-  let zoomed = false;
-  let scale = 2; // 2倍
+    // --- Zoom: double tap/click + pinch zoom + pan ---
+  let scale = 1;
   let panX = 0, panY = 0;
+
   let isPanning = false;
   let startX = 0, startY = 0;
 
+  // pinch
+  let pinching = false;
+  let pinchStartDist = 0;
+  let pinchStartScale = 1;
+  let pinchImgX = 0, pinchImgY = 0; // image-space point under fingers
+
+  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
   function applyTransform() {
-    if (!zoomed) {
-      lightboxImg.classList.remove("zoomed");
-      lightboxImg.style.transform = "translate(0px, 0px) scale(1)";
-      panX = 0; panY = 0;
-      return;
-    }
-    lightboxImg.classList.add("zoomed");
+    lightboxImg.classList.toggle("zoomed", scale > 1.01);
     lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
   }
 
-  function toggleZoom() {
-    zoomed = !zoomed;
+  function resetZoom() {
+    scale = 1;
+    panX = 0; panY = 0;
     applyTransform();
+  }
+
+  function toggleZoom() {
+    if (scale > 1.01) resetZoom();
+    else {
+      scale = 2;
+      panX = 0; panY = 0;
+      applyTransform();
+    }
   }
 
   // PC: ダブルクリックでズーム
@@ -172,8 +185,7 @@
   let lastTap = 0;
   lightboxImg.addEventListener("touchend", (e) => {
     const now = Date.now();
-    if (now - lastTap < 300) {
-      // ダブルタップ
+    if (now - lastTap < 300 && !pinching) {
       e.preventDefault();
       toggleZoom();
       lastTap = 0;
@@ -182,9 +194,9 @@
     }
   }, { passive: false });
 
-  // ドラッグで移動（PC）
+  // pan (PC)
   lightboxImg.addEventListener("mousedown", (e) => {
-    if (!zoomed) return;
+    if (scale <= 1.01) return;
     isPanning = true;
     startX = e.clientX - panX;
     startY = e.clientY - panY;
@@ -201,38 +213,98 @@
     isPanning = false;
   });
 
-  // ドラッグで移動（スマホ）
-  lightboxImg.addEventListener("touchstart", (e) => {
-    if (!zoomed) return;
-    isPanning = true;
-    startX = e.touches[0].clientX - panX;
-    startY = e.touches[0].clientY - panY;
+  // helper for pinch distance
+  function dist(t1, t2) {
+    const dx = t2.clientX - t1.clientX;
+    const dy = t2.clientY - t1.clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function mid(t1, t2) {
+    return {
+      x: (t1.clientX + t2.clientX) / 2,
+      y: (t1.clientY + t2.clientY) / 2
+    };
+  }
+
+  // touch start: pan or pinch
+
+
+  lightboxImg.addEventListener("touchstart", (e) => {  if (scale > 1.01 || e.touches.length > 1) return;
+    if (e.touches.length === 2) {
+      // begin pinch
+      pinching = true;
+      isPanning = false;
+
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+
+      pinchStartDist = dist(t1, t2);
+      pinchStartScale = scale;
+
+      // compute image-space point under midpoint (keep it fixed while zooming)
+      const m = mid(t1, t2);
+      pinchImgX = (m.x - panX) / scale;
+      pinchImgY = (m.y - panY) / scale;
+
+    } else if (e.touches.length === 1 && scale > 1.01) {
+      // begin pan
+      pinching = false;
+      isPanning = true;
+      startX = e.touches[0].clientX - panX;
+      startY = e.touches[0].clientY - panY;
+    }
   }, { passive: true });
 
+  // touch move: pan or pinch
   lightboxImg.addEventListener("touchmove", (e) => {
-    if (!isPanning || !zoomed) return;
-    panX = e.touches[0].clientX - startX;
-    panY = e.touches[0].clientY - startY;
-    applyTransform();
-  }, { passive: true });
+    if (pinching && e.touches.length === 2) {
+      e.preventDefault(); // important (we set passive:false)
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
 
-  lightboxImg.addEventListener("touchend", () => {
-    isPanning = false;
+      const d = dist(t1, t2);
+      const ratio = d / pinchStartDist;
+
+      // scale update
+      const newScale = clamp(pinchStartScale * ratio, 1, 4);
+      scale = newScale;
+
+      // keep midpoint fixed
+      const m = mid(t1, t2);
+      panX = m.x - pinchImgX * scale;
+      panY = m.y - pinchImgY * scale;
+
+      applyTransform();
+
+    } else if (isPanning && e.touches.length === 1) {
+      const t = e.touches[0];
+      panX = t.clientX - startX;
+      panY = t.clientY - startY;
+      applyTransform();
+    }
+  }, { passive: false });
+
+  lightboxImg.addEventListener("touchend", (e) => {if (scale > 1.01) return;
+
+    if (e.touches.length < 2) pinching = false;
+    if (e.touches.length === 0) isPanning = false;
+
+    // scale が 1 に戻ったら pan もリセット（ズレ防止）
+    if (scale <= 1.01) resetZoom();
   }, { passive: true });
 
   // 画像切り替え/閉じる時はズーム解除
-  const _closeLightbox = closeLightbox;
-  closeLightbox = function() {
-    zoomed = false;
-    applyTransform();
-    _closeLightbox();
+  const _closeLightbox2 = closeLightbox;
+  closeLightbox = function () {
+    resetZoom();
+    _closeLightbox2();
   };
 
-  const _showAt = showAt;
-  showAt = function(index) {
-    zoomed = false;
-    applyTransform();
-    _showAt(index);
+  const _showAt2 = showAt;
+  showAt = function (index) {
+    resetZoom();
+    _showAt2(index);
   };
 
 </script>
