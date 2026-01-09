@@ -1,13 +1,72 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Astro Kabuto</title>
-  <link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Astrophytum asterias</h1>
-  <p>兜丸の成長記録サイト</p>
+  <div class="container">
+
+    <header class="header">
+      <a class="brand" href="/">
+        <div class="logo"></div>
+        <div>
+          <h1>Astro Kabuto</h1>
+          <p>兜丸の成長記録サイト</p>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Growth Log</a>
+        <a href="#">Gallery</a>
+        <a href="#">About</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>Astrophytum asterias</h2>
+      <p class="sub">
+        兜丸の「成長・管理・写真」を記録して、世界のファンとつながるための場所。
+      </p>
+
+      <div class="badges">
+        <div class="badge">📷 写真記録</div>
+        <div class="badge">📅 成長ログ</div>
+        <div class="badge">🌍 Global</div>
+        <div class="badge">💬 交流（今後追加）</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>成長ログ</h3>
+        <p>日付・サイズ・用土・水やり・環境をまとめて記録。</p>
+      </div>
+      <div class="card">
+        <h3>ギャラリー</h3>
+        <p>お気に入り写真を月別・個体別に並べる予定。</p>
+      </div>
+      <div class="card">
+        <h3>育て方メモ</h3>
+        <p>遮光率、温度、用土、病害虫などの知見を整理。</p>
+      </div>
+      <div class="card">
+        <h3>コミュニティ</h3>
+        <p>将来：コメント＆チャットで世界の兜丸ファンと交流。</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      © <span id="y"></span> Astro Kabuto
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
