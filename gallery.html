@@ -139,6 +139,101 @@
     touchEndY = e.changedTouches[0].screenY;
     handleSwipe();
   }, { passive: true });
+  // --- Zoom (double click / double tap) + drag to pan ---
+  let zoomed = false;
+  let scale = 2; // 2倍
+  let panX = 0, panY = 0;
+  let isPanning = false;
+  let startX = 0, startY = 0;
+
+  function applyTransform() {
+    if (!zoomed) {
+      lightboxImg.classList.remove("zoomed");
+      lightboxImg.style.transform = "translate(0px, 0px) scale(1)";
+      panX = 0; panY = 0;
+      return;
+    }
+    lightboxImg.classList.add("zoomed");
+    lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+
+  function toggleZoom() {
+    zoomed = !zoomed;
+    applyTransform();
+  }
+
+  // PC: ダブルクリックでズーム
+  lightboxImg.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    toggleZoom();
+  });
+
+  // Mobile: ダブルタップでズーム
+  let lastTap = 0;
+  lightboxImg.addEventListener("touchend", (e) => {
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      // ダブルタップ
+      e.preventDefault();
+      toggleZoom();
+      lastTap = 0;
+    } else {
+      lastTap = now;
+    }
+  }, { passive: false });
+
+  // ドラッグで移動（PC）
+  lightboxImg.addEventListener("mousedown", (e) => {
+    if (!zoomed) return;
+    isPanning = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isPanning) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    applyTransform();
+  });
+
+  document.addEventListener("mouseup", () => {
+    isPanning = false;
+  });
+
+  // ドラッグで移動（スマホ）
+  lightboxImg.addEventListener("touchstart", (e) => {
+    if (!zoomed) return;
+    isPanning = true;
+    startX = e.touches[0].clientX - panX;
+    startY = e.touches[0].clientY - panY;
+  }, { passive: true });
+
+  lightboxImg.addEventListener("touchmove", (e) => {
+    if (!isPanning || !zoomed) return;
+    panX = e.touches[0].clientX - startX;
+    panY = e.touches[0].clientY - startY;
+    applyTransform();
+  }, { passive: true });
+
+  lightboxImg.addEventListener("touchend", () => {
+    isPanning = false;
+  }, { passive: true });
+
+  // 画像切り替え/閉じる時はズーム解除
+  const _closeLightbox = closeLightbox;
+  closeLightbox = function() {
+    zoomed = false;
+    applyTransform();
+    _closeLightbox();
+  };
+
+  const _showAt = showAt;
+  showAt = function(index) {
+    zoomed = false;
+    applyTransform();
+    _showAt(index);
+  };
 
 </script>
 

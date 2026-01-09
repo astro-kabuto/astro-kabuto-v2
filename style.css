@@ -246,4 +246,17 @@ body{
   .lightbox-btn.prev { left: 10px; }
   .lightbox-btn.next { right: 10px; }
 }
+/* Zoom */
+.lightbox img {
+  transition: transform 160ms ease;
+  touch-action: none; /* スマホで画像上のジェスチャーを扱えるように */
+}
+
+.lightbox img.zoomed {
+  cursor: grab;
+}
+
+.lightbox img.zoomed:active {
+  cursor: grabbing;
+}
 
