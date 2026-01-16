@@ -1,0 +1,140 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>花園兜 | Astro Kabuto</title>
+<meta name="description" content="花園兜（Astrophytum asterias）の特徴・写真。華やかな模様の出方を記録。"/>
+<link rel="stylesheet" href="style.css"/>
+<!-- ★ここに types-normal.html の <style> を丸ごと貼ってOK -->
+</head><body>
+<header class="site-header"><div class="site-header-inner">
+<a class="brand" href="index.html"><strong>Astro Kabuto</strong><span>兜丸の成長記録</span></a>
+<nav class="site-nav"><a href="index.html">Home</a></nav></div></header>
+
+<header class="hero"><div class="wrap"><div class="hero-inner">
+<div>
+  <div class="kicker">Types / Astrophytum asterias</div>
+  <h1>花園兜</h1>
+  <p class="lead">模様が華やかに見えるタイプ。白点の配置や稜の表情が“花”のように感じられるのが魅力。</p>
+  <div class="chips"><span class="chip">華やか</span><span class="chip">模様重視</span><span class="chip">Hero + 3 Detail</span></div>
+</div>
+<figure class="hero-media"><img src="images/types/types-hanazono-hero.png" alt="花園兜 ヒーロー写真" loading="eager"></figure>
+</div></div></header>
+
+<main class="wrap">
+<section class="section"><div class="card"><h2>ディテール写真</h2>
+<div class="grid3">
+  <div class="shot"><img src="images/types/types-hanazono-top.png" alt="花園兜 上から"><div class="cap">上から：模様の広がり</div></div>
+  <div class="shot"><img src="images/types/types-hanazono-close.png" alt="花園兜 アップ"><div class="cap">アップ：粒と質感</div></div>
+  <div class="shot"><img src="images/types/types-hanazono-angle.png" alt="花園兜 別角度"><div class="cap">別角度：立体感</div></div>
+</div></div></section>
+
+<section class="section"><div class="card"><h2>関連タイプ</h2>
+<div class="nav-links">
+  <a href="types-normal.html">通常兜</a><a href="types-isw.html">ISW兜</a><a href="types-super.html">スーパー兜</a>
+  <a href="types-ruri.html">瑠璃兜</a><a href="types-miracle.html">ミラクル兜</a>
+  <a href="types-ruri-nishiki.html">瑠璃錦兜</a><a href="types-royal-super.html">ロイヤルスーパー兜</a>
+</div></div></section>
+</main></body></html>
+<style>
+    :root{
+      --bg1:#f7f7f9; --bg2:#e3e6ec; --ink:#0b0c0f; --muted:#5b6270;
+      --card:#ffffffcc; --line:#e6e8ef; --radius:22px;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .12);
+    }
+    body{ color:var(--ink); }
+    .wrap{ max-width:1060px; margin:0 auto; padding:24px 16px 56px; }
+    @media(min-width:881px){ .wrap{ padding:26px 20px 64px; } }
+
+    .site-header{
+      position:sticky; top:0; z-index:100;
+      background:rgba(247,247,249,.82); backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(230,232,239,.9);
+    }
+    .site-header-inner{
+      max-width:1060px; margin:0 auto; padding:12px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{ text-decoration:none; color:var(--ink); line-height:1.1; }
+    .brand strong{ display:block; font-size:15px; }
+    .brand span{ font-size:11px; color:var(--muted); }
+    .site-nav a{
+      text-decoration:none; font-size:14px; padding:8px 12px;
+      border-radius:999px; border:1px solid rgba(230,232,239,.9);
+      background:rgba(255,255,255,.9); color:var(--ink);
+      box-shadow:0 6px 16px rgba(15,23,42,.06);
+    }
+
+    .hero{
+      background: radial-gradient(1200px 700px at 50% 35%, var(--bg1), var(--bg2));
+      border-bottom:1px solid var(--line);
+      padding-bottom:12px;
+    }
+    .hero .wrap{ max-width:980px; padding-top:22px; padding-bottom:12px; }
+    @media(min-width:881px){ .hero .wrap{ padding-top:36px; padding-bottom:24px; } }
+
+    .hero-inner{
+      display:grid; grid-template-columns:1fr; gap:16px;
+      align-items:center; padding:24px 0 18px;
+    }
+    @media(min-width:881px){
+      .hero-inner{ grid-template-columns:1.25fr .75fr; gap:20px; padding:36px 0 28px; }
+    }
+    .hero-inner>div{ text-align:left; }
+    .kicker{ font-size:13px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+    h1{ margin:10px 0 8px; font-size:clamp(34px,4vw,52px); line-height:1.05; }
+    .lead{ margin:0 0 14px; font-size:15.5px; line-height:1.7; color:var(--muted); max-width:52ch; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .chip{
+      font-size:12.5px; padding:7px 11px;
+      border:1px solid rgba(230,232,239,.9);
+      border-radius:999px; background:rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-media{
+      max-width:100%; margin:0 auto;
+      border-radius:var(--radius);
+      background: radial-gradient(900px 500px at 50% 30%, #fff, #eef0f6);
+      border:1px solid rgba(230,232,239,.9);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    @media(min-width:881px){ .hero-media{ max-width:400px; margin-left:auto; } }
+    .hero-media img{
+      width:100%; display:block; border-radius:16px;
+      aspect-ratio:4/5; object-fit:cover;
+    }
+
+    .section{ margin-top:28px; }
+    .hero + main .section:first-child{ margin-top:12px; }
+    @media(min-width:881px){ .hero + main .section:first-child{ margin-top:16px; } }
+
+    .card{
+      background:var(--card); border:1px solid var(--line);
+      border-radius:var(--radius); box-shadow:0 10px 28px rgba(15,23,42,.06);
+      padding:20px;
+    }
+    @media(min-width:881px){ .card{ padding:26px; } }
+    .section h2{ margin:0 0 12px; font-size:18px; letter-spacing:.02em; }
+    .muted{ color:var(--muted); line-height:1.85; font-size:14.5px; }
+
+    .grid3{ display:grid; grid-template-columns:1fr; gap:14px; margin-top:12px; }
+    @media(min-width:881px){ .grid3{ grid-template-columns:repeat(3,1fr); } }
+
+    .shot{
+      border-radius:18px; border:1px solid var(--line);
+      background:#fff; overflow:hidden;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .shot:hover{ transform: translateY(-2px); box-shadow:0 14px 30px rgba(15,23,42,.10); }
+    .shot img{ width:100%; display:block; aspect-ratio:4/3; object-fit:cover; }
+    .cap{ padding:10px 12px; font-size:13px; color:var(--muted); }
+
+    .nav-links{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .nav-links a{
+      display:inline-block; padding:10px 12px;
+      border-radius:999px; border:1px solid var(--line);
+      text-decoration:none; color:var(--ink); background:#fff;
+    }
+    .nav-links a:hover{ filter:brightness(.98); }
+  </style>
