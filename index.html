@@ -9,40 +9,163 @@
 </head>
 
 <body>
+
+ <header class="header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <div class="brand-text">
+        <h1>Astro Kabuto</h1>
+        <p>兜丸の成長記録サイト</p>
+      </div>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="growth-log.html">Growth Log</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="care.html">Care</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<!-- ===== Category Nav (Bonsai-myo風) ===== -->
+<nav class="catNav" aria-label="Category">
+  <a href="gallery.html">写真で楽しむ</a>
+  <a href="care.html">育て方を学ぶ</a>
+  <a href="growth-log.html">成長記録を見る</a>
+  <a href="#types">種類別</a>
+  <a href="about.html">このサイトについて</a>
+  <a href="gallery.html">写真を検索する</a>
+</nav>
+
+  <!-- ===== Hero（Apple風：中央見出し + 巨大画像 / 全幅） ===== -->
+ <!-- ===== Hero Full（迫力：写真全体＋文字重ね） ===== -->
+<section class="heroFull" aria-label="Hero">
+  <img class="heroFull-img" src="images/hero/asterias-hero.jpg" alt="兜丸">
+
+  <!-- 読みやすくするための暗いグラデ -->
+  <div class="heroFull-shade" aria-hidden="true"></div>
+
+  <div class="heroBar">ASTRO KABUTO</div>
+
+  <div class="heroFull-content">
+    
+
+    <h2 class="heroFull-title">アストロ兜さん</h2>
+
+    <p class="heroFull-sub">
+      今日も元気な兜丸たち。<br>
+      育てて、眺めて、ちょっと幸せ。
+    </p>
+
+    <!-- “筆っぽいフレーズ”の仮 -->
+    <p class="heroFull-brush">兜と暮らす。</p>
+
+    <div class="heroFull-actions">
+      <a class="btn primary" href="gallery.html">ギャラリーを見る</a>
+      <a class="btn ghost" href="#types">Types</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== Feature Blocks (Bonsai-myo vibe) ===== -->
+<section class="features wrap" aria-label="Featured">
+  <div class="featureGrid">
+
+    <!-- Big (left) -->
+    <a class="fCard fBig" href="gallery.html">
+      <img src="images/hero/asterias-hero.jpg" alt="兜丸ギャラリー">
+      <div class="fOverlay">
+        <h3>兜丸の写真で楽しむ</h3>
+        <p>ギャラリーで成長の記録を見る</p>
+      </div>
+    </a>
+<!-- Right (top) : ギフト型（写真 + 文章） -->
+<a href="care.html" class="fCard fSmall fSplit">
+  <div class="fSplit-media">
+    <img src="images/hero/asterias-hero.jpg" alt="兜丸の育て方">
+    <div class="fOverlay">
+      <h3>自宅で楽しむ</h3>
+      <p>趣味の兜</p>
+    </div>
+  </div>
+
+  <div class="fSplit-body">
+    <p>
+      自宅で兜丸を楽しみたい方へ。<br>
+      置き場所・水やり・季節管理の基本をまとめます。
+    </p>
+  </div>
+</a>
+
+<!-- Right (bottom) : ギフト型（写真 + 文章） -->
+<a href="growth-log.html" class="fCard fSmall fSplit">
+  <div class="fSplit-media">
+    <img src="images/hero/asterias-hero.jpg" alt="成長記録">
+    <div class="fOverlay">
+      <h3>成長記録を見る</h3>
+      <p>毎月の変化をまとめて</p>
+    </div>
+  </div>
+
+  <div class="fSplit-body">
+    <p>
+      写真とメモで変化を追います。<br>
+      季節ごとの調子の波も記録していきます。
+    </p>
+  </div>
+</a>
+
+    
+
+  </div>
+
+  <div class="bannerRow">
+    <a class="fBanner" href="types.html">
+      <img src="images/hero/asterias-hero.jpg" alt="種類別">
+      <div class="fOverlay">
+        <h3>種類別に見る</h3>
+        <p>白点・模様・個体差を楽しむ</p>
+      </div>
+    </a>
+
+    <a class="fBanner" href="about.html">
+      <img src="images/hero/asterias-hero.jpg" alt="このサイトについて">
+      <div class="fOverlay">
+        <h3>このサイトについて</h3>
+        <p>Astro Kabuto の目的</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+　<section class="homeTiles">
+  <a class="tile" href="gallery.html">
+    <img src="images/hero/asterias-hero.jpg" alt="">
+    <span>写真で楽しむ</span>
+  </a>
+
+  <a class="tile" href="care.html">
+    <img src="images/hero/asterias-hero.jpg" alt="">
+    <span>育て方を学ぶ</span>
+  </a>
+
+  <a class="tile" href="growth-log.html">
+    <img src="images/hero/asterias-hero.jpg" alt="">
+    <span>成長記録を見る</span>
+  </a>
+</section>
+　
+
+  <!-- ===== Main (container width) ===== -->
   <div class="container">
-
-    <!-- ===== Header ===== -->
-    <header class="header">
-      <a class="brand" href="index.html" aria-label="Astro Kabuto Home">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="brand-text">
-          <h1>Astro Kabuto</h1>
-          <p>兜丸の成長記録サイト</p>
-        </div>
-      </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="growth-log.html">Growth Log</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="care.html">Care</a>
-      </nav>
-    </header>
-
     <main>
-
-      <!-- ===== Hero（動く写真のみ） ===== -->
-      <section class="heroMotion heroStill heroPhotoOnly">
-        <img
-          class="heroMotion-media"
-          src="images/hero/asterias-hero.jpg"
-          alt="兜丸"
-          loading="eager"
-          decoding="async"
-        >
-        <div class="heroMotion-overlay"></div>
-      </section>
 
       <!-- ===== Types ===== -->
       <section class="types" id="types">
@@ -147,7 +270,6 @@
     <footer class="footer">
       © <span id="y"></span> Astro Kabuto
     </footer>
-
   </div>
 
   <script>
@@ -155,6 +277,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
