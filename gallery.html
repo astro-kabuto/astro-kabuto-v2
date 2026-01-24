@@ -5,341 +5,757 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gallery | Astro Kabuto</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- gallery専用CSS（最新版・整理済み） -->
+  <style>
+    main.wrap{ padding-top: 16px; }
+    main.wrap > h1{ margin: 6px 0 0; letter-spacing: -0.02em; }
+    main.wrap > .sub{ margin-top: 6px; }
+
+    /* ===== Top Community Bar ===== */
+    .gTopBar{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 14px 0 12px;
+    }
+    .gTopBar-left{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .gPillBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.92);
+      color: rgba(0,0,0,.75);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+    .gPillBtn.primary{
+      background: rgba(0,113,227,.12);
+      border-color: rgba(0,113,227,.20);
+    }
+    .gPillBtn:hover{ filter: brightness(0.98); }
+
+    /* ===== Featured (今日の兜) ===== */
+    .gFeatured{
+      margin: 12px 0 14px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 18px 60px rgba(0,0,0,.10);
+      background: #f5f5f7;
+      position: relative;
+
+      /* ぺちゃんこ回避：縦寄り比率 */
+      height: auto;
+      aspect-ratio: 4 / 3;
+
+      cursor: pointer;
+    }
+    .gFeatured:hover{
+      box-shadow: 0 26px 85px rgba(0,0,0,.14);
+    }
+
+    /* ぼかし背景（JSで --featured-bg を更新） */
+    .gFeatured::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: var(--featured-bg) center / cover no-repeat;
+      filter: blur(14px) brightness(.92);
+      transform: scale(1.10);
+      z-index: 0;
+      pointer-events:none;
+    }
+
+    /* 文字のための暗グラデ */
+    .gFeatured::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index: 2;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,.78),
+        rgba(0,0,0,.38) 42%,
+        rgba(0,0,0,0) 72%
+      );
+      pointer-events:none;
+    }
+
+    /* 手前のメイン画像（全体表示） */
+    .gFeatured img{
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      position: relative;
+      z-index: 1;
+      background: transparent;
+    }
+
+    .gFeatured-info{
+      position:absolute;
+      left: 16px;
+      bottom: 14px;
+      z-index: 3;
+      color: #fff;
+      text-shadow: 0 18px 40px rgba(0,0,0,.85);
+    }
+
+    .gFeatured-kicker{
+      color: rgba(255,255,255,.92);
+      font-weight: 800;
+      letter-spacing: .14em;
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.12);
+      margin: 0 0 8px;
+      font-size: 12px;
+    }
+
+    .gFeatured-title{
+      color: #fff;
+      font-weight: 900;
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .gFeatured-sub{
+      color: rgba(255,255,255,.92);
+      font-weight: 700;
+      margin: 0;
+      font-size: 12px;
+      opacity: .95;
+    }
+
+    /* ===== Controls ===== */
+    .gControls{
+      position: sticky;
+      top: 92px;
+      z-index: 50;
+      margin: 10px 0 16px;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.08);
+    }
+    .gRow{ display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .gSearch{
+      flex: 1 1 280px;
+      height: 44px;
+      border-radius: 14px;
+      padding: 0 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: #fff;
+      font-size: 13px;
+    }
+    .gSelect, .gBtn{
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: #fff;
+      font-size: 13px;
+      padding: 0 12px;
+    }
+    .gBtn{ cursor: pointer; }
+    .gChips{ display:flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .gChip{
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.92);
+      color: rgba(0,0,0,.60);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .gChip.is-active{
+      background: rgba(0,0,0,.06);
+      border-color: rgba(0,0,0,.12);
+      color: rgba(0,0,0,.88);
+    }
+    .gMeta{ margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+    .gEmpty{ margin: 14px 0 0; color: var(--muted); font-size: 13px; }
+
+    /* ===== Grid ===== */
+    .grid{ display: grid; gap: 18px; margin-top: 10px; }
+    .gItem{ position: relative; }
+
+    .gMonth{
+      grid-column: 1 / -1;
+      margin: 8px 0 2px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+      color: rgba(0,0,0,.70);
+      font-size: 12px;
+      letter-spacing: .08em;
+    }
+
+    .gTag{
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      z-index: 2;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.10);
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: .06em;
+      pointer-events: none;
+    }
+
+    .gFav{
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      z-index: 3;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.30);
+      color: rgba(255,255,255,.95);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .gFav.is-on{
+      background: rgba(255,255,255,.90);
+      border-color: rgba(255,255,255,.35);
+      color: rgba(0,0,0,.75);
+    }
+
+    .gActions{
+      position:absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 3;
+      display:flex;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events: none;
+    }
+    .gItem:hover .gActions{
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .gActionBtn, .gActionLink{
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.30);
+      color: rgba(255,255,255,.95);
+      font-size: 12px;
+      text-decoration: none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor: pointer;
+      user-select:none;
+    }
+    .gActionBtn[disabled]{ opacity: .6; cursor: not-allowed; }
+
+    .gItem .gimg{
+      width: 100%;
+      height: 240px;
+      display: block;
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 18px 55px rgba(0,0,0,.10);
+      background: #fff;
+      object-fit: cover;
+      transform: translateY(0);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      cursor: pointer;
+    }
+    .gItem .gimg:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 26px 75px rgba(0,0,0,.14);
+      filter: saturate(1.03) contrast(1.02);
+    }
+
+    /* Lightbox info panel */
+    .lbPanel{
+      margin-top: 12px;
+      max-width: min(900px, 92vw);
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .lbTitle{ font-size: 13px; font-weight: 800; margin-bottom: 6px; opacity: .98; }
+    .lbPills{ display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .lbPill{
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      font-size: 11px;
+      opacity: .95;
+    }
+    .lbNote{ opacity: .9; }
+
+    @media (max-width: 740px){
+      .gControls{ top: 74px; }
+      .gItem .gimg{ height: 200px; }
+      .gActions{ opacity: 1; transform:none; pointer-events:auto; }
+    }
+  </style>
 </head>
 
 <body>
   <header class="header">
-  <a class="brand" href="index.html" aria-label="Astro Kabuto Home">
-    <div class="logo" aria-hidden="true"></div>
-    <div class="brand-text">
-      <h1>Astro Kabuto</h1>
-      <p>兜丸の成長記録サイト</p>
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Astro Kabuto Home">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-text">
+          <h1>Astro Kabuto</h1>
+          <p>兜丸の成長記録サイト</p>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="growth-log.html">Growth Log</a>
+        <a href="gallery.html" aria-current="page">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="care.html">Care</a>
+      </nav>
     </div>
-  </a>
+  </header>
 
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html">Home</a>
-    <a href="growth-log.html">Growth Log</a>
-    <a href="gallery.html" aria-current="page">Gallery</a>
-    <a href="about.html">About</a>
-    <a href="care.html">Care</a>
-  </nav>
-</header>
-
-
-  <main class="container">
+  <main class="wrap">
     <h1>Gallery</h1>
-    <p class="sub">兜丸の写真記録</p>
+    <p class="sub" style="margin-bottom:10px;">検索・フィルターで探せます。投稿も歓迎！</p>
 
-    <div class="grid">
-      <img class="gimg"
-     src="images/gallery/2026-01-09_kabuto (1).jpg"
-     alt="兜丸"
-     loading="lazy" decoding="async"
-     data-cultivar="兜丸（Astrophytum asterias）"
-     data-date="2026-01-09"
-     data-author="kiji">
-
-
-     <img class="gimg" src="images/gallery/2026-01-09_kabuto (2).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (3).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (4).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (5).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (6).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (7).jpg" alt="" loading="lazy" decoding="async">
-      <img class="gimg" src="images/gallery/2026-01-09_kabuto (8).jpg" alt="" loading="lazy" decoding="async">
+    <div class="gTopBar">
+      <div class="gTopBar-left">
+        <a class="gPillBtn primary" id="postBtn" href="#" target="_blank" rel="noopener">あなたの兜丸を投稿</a>
+        <a class="gPillBtn" id="askBtn" href="#" target="_blank" rel="noopener">質問する</a>
+      </div>
+      <div class="sub" style="margin:0;">※コメント機能は準備中</div>
     </div>
+
+    <section class="gFeatured" id="gFeatured" aria-label="Today pick">
+      <img id="gFeaturedImg" src="images/gallery/2026-01-09_kabuto (1).jpg" alt="今日のおすすめ">
+      <div class="gFeatured-info">
+        <p class="gFeatured-kicker">TODAY’S PICK</p>
+        <p class="gFeatured-title" id="gFeaturedTitle">今日の兜</p>
+        <p class="gFeatured-sub" id="gFeaturedSub">クリックで拡大表示</p>
+      </div>
+    </section>
+
+    <section class="gControls" aria-label="Gallery controls">
+      <div class="gRow">
+        <input id="gSearch" class="gSearch" type="search"
+          placeholder="検索（例：super / 2026-01 / isw）" autocomplete="off">
+        <select id="gSort" class="gSelect" aria-label="Sort">
+          <option value="new">新しい順</option>
+          <option value="old">古い順</option>
+        </select>
+        <button id="gReset" class="gBtn" type="button">リセット</button>
+      </div>
+
+      <div class="gChips" role="group" aria-label="Filter chips">
+        <button class="gChip is-active" data-filter="all" type="button">すべて</button>
+        <button class="gChip" data-filter="normal" type="button">通常兜</button>
+        <button class="gChip" data-filter="super" type="button">スーパー兜</button>
+        <button class="gChip" data-filter="ruri" type="button">瑠璃兜</button>
+        <button class="gChip" data-filter="miracle" type="button">ミラクル兜</button>
+        <button class="gChip" data-filter="isw" type="button">ISW兜</button>
+        <button class="gChip" data-filter="fav" type="button">♡ お気に入り</button>
+      </div>
+
+      <p class="gMeta"><span id="gCount"></span></p>
+    </section>
+
+    <div id="grid" class="grid">
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (1).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (2).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (3).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (4).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (5).jpg" alt="スーパー兜" loading="lazy" decoding="async" data-cultivar="スーパー兜（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="super"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (6).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (7).jpg" alt="兜丸" loading="lazy" decoding="async" data-cultivar="兜丸（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="normal"></div>
+      <div class="gItem"><img class="gimg" src="images/gallery/2026-01-09_kabuto (8).jpg" alt="ISW兜" loading="lazy" decoding="async" data-cultivar="ISW兜（Astrophytum asterias）" data-date="2026-01-09" data-author="kiji" data-type="isw"></div>
+    </div>
+
+    <p id="gEmpty" class="gEmpty" hidden>条件に一致する写真が見つかりませんでした。</p>
 
     <p style="margin-top:40px;">
       <a href="index.html">← Homeへ戻る</a>
     </p>
   </main>
- <!-- Lightbox -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button class="lightbox-btn prev" id="lightboxPrev" aria-label="Prev">‹</button>
 
-  <figure class="lightbox-figure">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
-    <img id="lightboxImg" alt="">
-    <figcaption id="lightboxCap" class="lightbox-cap"></figcaption>
-  </figure>
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button class="lightbox-btn prev" id="lightboxPrev" aria-label="Prev">‹</button>
+    <figure class="lightbox-figure">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+      <img id="lightboxImg" alt="">
+      <figcaption id="lightboxCap" class="lightbox-cap"></figcaption>
+      <div id="lbPanel" class="lbPanel" aria-live="polite"></div>
+    </figure>
+    <button class="lightbox-btn next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
 
-  <button class="lightbox-btn next" id="lightboxNext" aria-label="Next">›</button>
-</div>
-<script>
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightboxImg");
-  const lightboxCap = document.getElementById("lightboxCap");
-  const closeBtn = document.getElementById("lightboxClose");
-  const prevBtn = document.getElementById("lightboxPrev");
-  const nextBtn = document.getElementById("lightboxNext");
+  <script>
+    // ====== CHANGE THESE URLs LATER ======
+    const POST_FORM_URL = "#";
+    const QUESTION_FORM_URL = "#";
+    document.getElementById("postBtn").href = POST_FORM_URL;
+    document.getElementById("askBtn").href = QUESTION_FORM_URL;
 
-  const images = Array.from(document.querySelectorAll(".gimg"));
-  let currentIndex = -1;
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCap = document.getElementById("lightboxCap");
+    const lbPanel = document.getElementById("lbPanel");
+    const closeBtn = document.getElementById("lightboxClose");
+    const prevBtn = document.getElementById("lightboxPrev");
+    const nextBtn = document.getElementById("lightboxNext");
 
-  // ===== Zoom state (showAt/closeLightbox より前に必要) =====
-  let scale = 1;
-  let panX = 0, panY = 0;
+    const grid = document.getElementById("grid");
+    const images = Array.from(document.querySelectorAll(".gimg"));
 
-  let isPanning = false;
-  let startX = 0, startY = 0;
+    const featured = document.getElementById("gFeatured");
+    const featuredImg = document.getElementById("gFeaturedImg");
+    const featuredTitle = document.getElementById("gFeaturedTitle");
+    const featuredSub = document.getElementById("gFeaturedSub");
 
-  let pinching = false;
-  let pinchStartDist = 0;
-  let pinchStartScale = 1;
-  let pinchImgX = 0, pinchImgY = 0;
+    const searchEl = document.getElementById("gSearch");
+    const sortEl = document.getElementById("gSort");
+    const resetEl = document.getElementById("gReset");
+    const chips = Array.from(document.querySelectorAll(".gChip"));
+    const countEl = document.getElementById("gCount");
+    const emptyEl = document.getElementById("gEmpty");
 
-  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+    let activeType = "all";
+    let currentIndex = -1;
 
-  function applyTransform() {
-    lightboxImg.classList.toggle("zoomed", scale > 1.01);
-    lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-  }
+    // favorites
+    const FAV_KEY = "astroKabutoFavs";
+    let favSet = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
+    const saveFav = () => localStorage.setItem(FAV_KEY, JSON.stringify([...favSet]));
+    const imgId = (img) => img.getAttribute("src");
 
-  function resetZoom() {
-    scale = 1;
-    panX = 0; panY = 0;
-    applyTransform();
-  }
-
-  // ===== Gallery navigation =====
-  function showAt(index) {
-    if (!images.length) return;
-
-    resetZoom(); // 画像切り替え時にズーム解除
-
-    currentIndex = (index + images.length) % images.length;
-    const img = images[currentIndex];
-    lightboxImg.src = img.src;
-    const c = img.dataset.cultivar || "";
-const d = img.dataset.date || "";
-const a = img.dataset.author || "";
-lightboxCap.textContent = [c, d, a ? `by ${a}` : ""].filter(Boolean).join(" / ");
-
-  }
-
-  function openLightbox(index) {
-    lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden", "false");
-    showAt(index);
-  }
-
-  function closeLightbox() {
-    resetZoom(); // 閉じる時もズーム解除
-    lightbox.classList.remove("open");
-    lightbox.setAttribute("aria-hidden", "true");
-    lightboxImg.src = "";
-    currentIndex = -1;
-  }
-
-  function next() { if (currentIndex !== -1) showAt(currentIndex + 1); }
-  function prev() { if (currentIndex !== -1) showAt(currentIndex - 1); }
-
-  images.forEach((img, i) => img.addEventListener("click", () => openLightbox(i)));
-  nextBtn.addEventListener("click", next);
-  prevBtn.addEventListener("click", prev);
-  closeBtn.addEventListener("click", closeLightbox);
-
-  // 背景クリックで閉じる
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
-  // 画像の左右クリックで移動（ズーム中は無効）
-  lightboxImg.addEventListener("click", (e) => {
-    if (scale > 1.01) return;
-    const rect = lightboxImg.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    if (x < rect.width / 2) prev();
-    else next();
-  });
-
-  // キーボード操作（ズーム中は左右無効）
-  document.addEventListener("keydown", (e) => {
-    if (!lightbox.classList.contains("open")) return;
-    if (e.key === "Escape") closeLightbox();
-    if (scale > 1.01) return;
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
-  });
-
-  // ===== Swipe (mobile) : ズーム中/2本指は無効 =====
-  let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
-
-  function handleSwipe() {
-    const dx = touchEndX - touchStartX;
-    const dy = touchEndY - touchStartY;
-    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
-    if (dx < 0) next();
-    else prev();
-  }
-
-  lightbox.addEventListener("touchstart", (e) => {
-    if (!lightbox.classList.contains("open")) return;
-    if (scale > 1.01 || e.touches.length > 1) return;
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
-
-  lightbox.addEventListener("touchend", (e) => {
-    if (!lightbox.classList.contains("open")) return;
-    if (scale > 1.01) return;
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
-  }, { passive: true });
-function toggleZoomAt(x, y) {
-  const rect = lightboxImg.getBoundingClientRect();
-  const px = x - rect.left;
-  const py = y - rect.top;
-
-  if (scale > 1.01) {
-    resetZoom();
-    return;
-  }
-
-  const newScale = 2;
-  const imgX = (px - panX) / scale;
-  const imgY = (py - panY) / scale;
-
-  scale = newScale;
-  panX = px - imgX * scale;
-  panY = py - imgY * scale;
-
-  applyTransform();
-}
-
-// ダブルクリックでズーム
-lightboxImg.addEventListener("dblclick", (e) => {
-  e.preventDefault();
-  toggleZoomAt(e.clientX, e.clientY);
-});
-// スマホ：ダブルタップでズーム
-let lastTap = 0;
-lightboxImg.addEventListener("touchend", (e) => {
-  if (!lightbox.classList.contains("open")) return;
-  if (e.changedTouches.length !== 1) return;
-  if (pinching) return;          // ピンチ中は無視
-  if (scale > 1.01 && isPanning) return; // パン中も無視
-
-  const now = Date.now();
-  const dt = now - lastTap;
-
-  if (dt < 280 && dt > 30) {
-    const t = e.changedTouches[0];
-    toggleZoomAt(t.clientX, t.clientY);
-    lastTap = 0;
-  } else {
-    lastTap = now;
-  }
-}, { passive: true });
-
-// マウスホイールでズーム
-lightboxImg.addEventListener("wheel", (e) => {
-  if (!lightbox.classList.contains("open")) return;
-
-  e.preventDefault();
-
-  const rect = lightboxImg.getBoundingClientRect();
-  const px = e.clientX - rect.left;
-  const py = e.clientY - rect.top;
-
-  const imgX = (px - panX) / scale;
-  const imgY = (py - panY) / scale;
-
-  const zoomFactor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-  scale = clamp(scale * zoomFactor, 1, 6);
-
-  panX = px - imgX * scale;
-  panY = py - imgY * scale;
-
-  applyTransform();
-
-  // ★ここは「戻りすぎる」なら消してOK
-  // if (scale <= 1.01) resetZoom();
-}, { passive: false });
-
-// ドラッグで移動（PC）
-let mousePanning = false;
-let mouseStartX = 0, mouseStartY = 0;
-
-lightboxImg.addEventListener("mousedown", (e) => {
-  if (scale <= 1.01) return;
-  mousePanning = true;
-  mouseStartX = e.clientX - panX;
-  mouseStartY = e.clientY - panY;
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (!mousePanning) return;
-  panX = e.clientX - mouseStartX;
-  panY = e.clientY - mouseStartY;
-  applyTransform();
-});
-
-document.addEventListener("mouseup", () => {
-  mousePanning = false;
-});
-
-  // ===== Pinch zoom + pan =====
-  function dist(t1, t2) {
-    const dx = t2.clientX - t1.clientX;
-    const dy = t2.clientY - t1.clientY;
-    return Math.hypot(dx, dy);
-  }
-  function mid(t1, t2) {
-    return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
-  }
-
-  lightboxImg.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 2) {
-      pinching = true;
-      isPanning = false;
-
-      const t1 = e.touches[0], t2 = e.touches[1];
-      pinchStartDist = dist(t1, t2);
-      pinchStartScale = scale;
-
-      const m = mid(t1, t2);
-      pinchImgX = (m.x - panX) / scale;
-      pinchImgY = (m.y - panY) / scale;
-    } else if (e.touches.length === 1 && scale > 1.01) {
-      pinching = false;
-      isPanning = true;
-      startX = e.touches[0].clientX - panX;
-      startY = e.touches[0].clientY - panY;
+    // zoom
+    let scale = 1, panX = 0, panY = 0;
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+    function applyTransform() {
+      lightboxImg.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${scale})`;
     }
-  }, { passive: true });
+    function resetZoom() { scale = 1; panX = 0; panY = 0; applyTransform(); }
 
-  lightboxImg.addEventListener("touchmove", (e) => {
-    if (pinching && e.touches.length === 2) {
-      e.preventDefault();
-      const t1 = e.touches[0], t2 = e.touches[1];
-      const ratio = dist(t1, t2) / pinchStartDist;
+    const typeLabel = (t) => ({
+      normal: "通常兜", super: "スーパー兜", ruri: "瑠璃兜", miracle: "ミラクル兜", isw: "ISW兜",
+    }[t] || (t || "兜"));
 
-      scale = clamp(pinchStartScale * ratio, 1, 4);
+    const monthLabel = (dateStr) => (dateStr && dateStr.length >= 7) ? dateStr.slice(0,7) : "---- --";
 
-      const m = mid(t1, t2);
-      panX = m.x - pinchImgX * scale;
-      panY = m.y - pinchImgY * scale;
-
-      applyTransform();
-    } else if (isPanning && e.touches.length === 1) {
-      panX = e.touches[0].clientX - startX;
-      panY = e.touches[0].clientY - startY;
-      applyTransform();
+    function imgText(img){
+      const c = img.dataset.cultivar || "";
+      const d = img.dataset.date || "";
+      const a = img.dataset.author || "";
+      const t = img.dataset.type || "";
+      const n = img.dataset.note || "";
+      const e = img.dataset.env || "";
+      return `${c} ${d} ${a} ${t} ${n} ${e}`.toLowerCase();
     }
-  }, { passive: false });
 
-  lightboxImg.addEventListener("touchend", (e) => {
-    if (e.touches.length < 2) pinching = false;
-    if (e.touches.length === 0) isPanning = false;
-    if (scale <= 1.01) resetZoom();
-  }, { passive: true });
-</script>
+    function visibleItemsInDom(){
+      return Array.from(grid.querySelectorAll(".gItem"))
+        .filter(item => item.style.display !== "none");
+    }
 
+    function visibleImgsInDom(){
+      return visibleItemsInDom().map(item => item.querySelector(".gimg")).filter(Boolean);
+    }
 
+    function setupItemUI(){
+      images.forEach(img=>{
+        const item = img.closest(".gItem");
+        if (!item) return;
 
+        // tag
+        let tag = item.querySelector(".gTag");
+        if (!tag){
+          tag = document.createElement("span");
+          tag.className = "gTag";
+          item.prepend(tag);
+        }
+        tag.textContent = `${typeLabel(img.dataset.type)} / ${img.dataset.date || ""}`.trim();
+
+        // fav
+        let favBtn = item.querySelector(".gFav");
+        if (!favBtn){
+          favBtn = document.createElement("button");
+          favBtn.type = "button";
+          favBtn.className = "gFav";
+          favBtn.setAttribute("aria-label", "お気に入り");
+          item.appendChild(favBtn);
+
+          favBtn.addEventListener("click", (e)=>{
+            e.preventDefault(); e.stopPropagation();
+            const id = imgId(img);
+            favSet.has(id) ? favSet.delete(id) : favSet.add(id);
+            saveFav();
+            renderFavState();
+            if (activeType === "fav") applyFilters();
+          });
+        }
+
+        // actions
+        let acts = item.querySelector(".gActions");
+        if (!acts){
+          acts = document.createElement("div");
+          acts.className = "gActions";
+
+          const cbtn = document.createElement("button");
+          cbtn.type = "button";
+          cbtn.className = "gActionBtn";
+          cbtn.disabled = true;
+          cbtn.textContent = "コメント（準備中）";
+          cbtn.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); });
+
+          const qlink = document.createElement("a");
+          qlink.className = "gActionLink";
+          qlink.href = QUESTION_FORM_URL;
+          qlink.target = "_blank";
+          qlink.rel = "noopener";
+          qlink.textContent = "質問する";
+          qlink.addEventListener("click", (e)=>{ e.stopPropagation(); });
+
+          acts.appendChild(cbtn);
+          acts.appendChild(qlink);
+          item.appendChild(acts);
+        }
+      });
+
+      renderFavState();
+    }
+
+    function renderFavState(){
+      images.forEach(img=>{
+        const item = img.closest(".gItem");
+        const favBtn = item?.querySelector(".gFav");
+        if (!favBtn) return;
+        const on = favSet.has(imgId(img));
+        favBtn.classList.toggle("is-on", on);
+        favBtn.textContent = on ? "♥" : "♡";
+      });
+    }
+
+    // ===== 今日の兜：日替わり（JST 0:00で切替） =====
+    const FEATURED_DAILY_KEY = "astroKabutoFeaturedDaily";
+    function todayKeyJST(){
+      // YYYY-MM-DD（Asia/Tokyo基準）
+      return new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Tokyo" }).format(new Date());
+    }
+
+    function pickFeatured(){
+      if (!images.length) return null;
+
+      const today = todayKeyJST();
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem(FEATURED_DAILY_KEY) || "null"); } catch {}
+
+      if (saved && saved.date === today && saved.src){
+        const found = images.find(img => img.getAttribute("src") === saved.src);
+        if (found) return found;
+      }
+
+      // 今日の分を決める（表示中があればそこから）
+      const visible = images.filter(img => img.closest(".gItem").style.display !== "none");
+      const pool = visible.length ? visible : images;
+
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      localStorage.setItem(FEATURED_DAILY_KEY, JSON.stringify({
+        date: today,
+        src: pick.getAttribute("src")
+      }));
+      return pick;
+    }
+
+    function updateFeatured(){
+      const img = pickFeatured();
+      if (!img) return;
+
+      featuredImg.src = img.getAttribute("src");
+      featured.style.setProperty("--featured-bg", `url("${featuredImg.src}")`);
+
+      featuredTitle.textContent = `今日の兜：${typeLabel(img.dataset.type)}`;
+      featuredSub.textContent = `${img.dataset.date || ""} / ${img.dataset.cultivar || ""}`.trim();
+
+      featured.onclick = (e)=>{
+        e.preventDefault();
+        const vis = visibleImgsInDom();
+        const idx = vis.indexOf(img);
+        openLightbox(idx !== -1 ? idx : 0);
+      };
+    }
+
+    function applyFilters(){
+      const q = (searchEl.value || "").trim().toLowerCase();
+
+      images.forEach(img=>{
+        const item = img.closest(".gItem");
+        if (!item) return;
+
+        const matchFav = favSet.has(imgId(img));
+        const matchType =
+          (activeType === "all") ||
+          (activeType === "fav" ? matchFav : (img.dataset.type === activeType));
+
+        const matchText = !q || imgText(img).includes(q);
+        item.style.display = (matchType && matchText) ? "" : "none";
+      });
+
+      let vis = images.filter(img=>{
+        const item = img.closest(".gItem");
+        return item && item.style.display !== "none";
+      });
+
+      vis.sort((a,b)=>{
+        const da = (a.dataset.date || "0000-00-00");
+        const db = (b.dataset.date || "0000-00-00");
+        return (sortEl.value === "new") ? (db.localeCompare(da)) : (da.localeCompare(db));
+      });
+
+      grid.innerHTML = "";
+      let lastMonth = "";
+      vis.forEach(img=>{
+        const item = img.closest(".gItem");
+        if (!item) return;
+        const m = monthLabel(img.dataset.date);
+        if (m !== lastMonth){
+          const h = document.createElement("div");
+          h.className = "gMonth";
+          h.textContent = m;
+          grid.appendChild(h);
+          lastMonth = m;
+        }
+        grid.appendChild(item);
+      });
+
+      countEl.textContent = `${vis.length}枚表示中`;
+      emptyEl.hidden = vis.length !== 0;
+
+      updateFeatured();
+    }
+
+    chips.forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        chips.forEach(b=>b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        activeType = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchEl.addEventListener("input", applyFilters);
+    sortEl.addEventListener("change", applyFilters);
+    resetEl.addEventListener("click", ()=>{
+      activeType = "all";
+      chips.forEach(b=>b.classList.remove("is-active"));
+      chips[0].classList.add("is-active");
+      searchEl.value = "";
+      sortEl.value = "new";
+      applyFilters();
+    });
+
+    function setInfoPanel(img){
+      const c = img.dataset.cultivar || "";
+      const d = img.dataset.date || "";
+      const a = img.dataset.author || "";
+      const t = typeLabel(img.dataset.type || "");
+      const env = img.dataset.env || "";
+      const note = img.dataset.note || "";
+
+      lbPanel.innerHTML = `
+        <div class="lbTitle">${c || "兜丸"}</div>
+        <div class="lbPills">
+          ${t ? `<span class="lbPill">${t}</span>` : ""}
+          ${d ? `<span class="lbPill">${d}</span>` : ""}
+          ${a ? `<span class="lbPill">by ${a}</span>` : ""}
+          ${env ? `<span class="lbPill">${env}</span>` : ""}
+        </div>
+        <div class="lbNote">${note ? note : "（メモは未登録）"}</div>
+      `;
+    }
+
+    function showAt(index){
+      const vis = visibleImgsInDom();
+      if (!vis.length) return;
+
+      resetZoom();
+      currentIndex = (index + vis.length) % vis.length;
+      const thumb = vis[currentIndex];
+      lightboxImg.src = thumb.getAttribute("src");
+      lightboxCap.textContent = [thumb.dataset.cultivar || "", thumb.dataset.date || ""].filter(Boolean).join(" / ");
+      setInfoPanel(thumb);
+    }
+
+    function openLightbox(index){
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      showAt(index);
+    }
+
+    function closeLightbox(){
+      resetZoom();
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImg.src = "";
+      lbPanel.innerHTML = "";
+      currentIndex = -1;
+    }
+
+    function next(){ if (currentIndex !== -1) showAt(currentIndex + 1); }
+    function prev(){ if (currentIndex !== -1) showAt(currentIndex - 1); }
+
+    images.forEach(img=>{
+      img.addEventListener("click", ()=>{
+        const vis = visibleImgsInDom();
+        const i = vis.indexOf(img);
+        if (i !== -1) openLightbox(i);
+      });
+    });
+
+    nextBtn.addEventListener("click", next);
+    prevBtn.addEventListener("click", prev);
+    closeBtn.addEventListener("click", closeLightbox);
+
+    // init
+    setupItemUI();
+    applyFilters();
+  </script>
 </body>
 </html>
 

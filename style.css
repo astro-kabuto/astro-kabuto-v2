@@ -931,6 +931,88 @@ img{
   .lightbox-btn.prev{ left: 10px; }
   .lightbox-btn.next{ right: 10px; }
 }
+/* =========================
+   Gallery Controls（検索・並び替え・フィルター）
+   ========================= */
+.gControls{
+  margin: 18px 0 8px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.70);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+
+.gRow{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gSearch{
+  flex: 1 1 280px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+}
+
+.gSelect{
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+}
+
+.gBtn{
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.gChips{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.gChip{
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.gChip.is-active{
+  color: var(--text);
+  background: rgba(0,0,0,.04);
+}
+
+.gMeta{
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.gEmpty{
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
 
 
 
