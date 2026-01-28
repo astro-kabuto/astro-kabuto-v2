@@ -2,281 +2,266 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Astro Kabuto</title>
-  <meta name="description" content="兜丸（Astrophytum asterias）の成長記録、写真ギャラリー、育て方メモをまとめる個人サイト。" />
+  <meta name="description" content="兜丸（Astrophytum asterias）の写真・成長記録・育て方をまとめたサイト。" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
- <header class="header">
-  <div class="header-inner">
-    <a class="brand" href="index.html">
-      <div class="logo"></div>
-      <div class="brand-text">
-        <h1>Astro Kabuto</h1>
-        <p>兜丸の成長記録サイト</p>
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Astro Kabuto Home">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-text">
+          <h1>Astro Kabuto</h1>
+          <p>兜丸のfanサイト</p>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="growth-log.html">Growth Log</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="care.html">Care</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Category Nav（サブ導線） ===== -->
+  <nav class="catNav" aria-label="Category">
+    <a href="gallery.html">写真で楽しむ</a>
+    <a href="care.html">育て方（初心者）</a>
+    <a href="care-deep.html">育て方（詳しく）</a>
+    <a href="growth-log.html">成長記録</a>
+    <a href="#types">種類別</a>
+    <a href="#community">コミュニティ</a>
+  </nav>
+
+  <!-- ===== Hero（全体に迫力画像 + テキストは右下） ===== -->
+  <section class="heroFull" aria-label="Hero">
+    <img class="heroFull-img" src="images/hero/asterias-hero.jpg" alt="兜丸" loading="eager" decoding="async">
+    <div class="heroFull-shade" aria-hidden="true"></div>
+
+    <!-- 上に薄いバー（黒枠なし） -->
+    <div class="heroBar" aria-hidden="true">ASTRO KABUTO</div>
+
+    <div class="heroFull-content">
+      <h2 class="heroFull-title">アストロ兜さん</h2>
+      <p class="heroFull-sub">
+        今日も元気な兜丸たち。<br>
+        育てて、眺めて、ちょっと幸せ。
+      </p>
+      <p class="heroFull-brush">兜と暮らす。</p>
+
+      <div class="heroFull-actions">
+  <a class="btn primary" href="gallery.html">ギャラリーを見る</a>
+  <a class="btn ghost" href="care.html">育て方（初心者）</a>
+  <a class="btn ghost" href="care.html#qa">症状Q&amp;A</a>
+  <a class="btn ghost" href="#community">投稿・質問</a>
+</div>
+
+    </div>
+  </section>
+
+  <!-- ===== Quick Care（Homeの超要約） ===== -->
+  <section class="quickCare wrap" aria-label="Quick Care">
+    <div class="quickHead">
+      <h2>兜丸の育て方：まずはこれだけ</h2>
+      <p class="sub">初心者向けに“迷わない答え”だけを先にまとめました。</p>
+    </div>
+
+    <div class="quickGrid">
+      <div class="qCard">
+        <h3>光</h3>
+        <p>春秋はしっかり。真夏は遮光（目安40〜60%）。急に強光へ移動しない。</p>
       </div>
-    </a>
+      <div class="qCard">
+        <h3>水</h3>
+        <p>生長期は「乾いたらたっぷり」。冬は断水寄り（寒いほど水は減らす）。</p>
+      </div>
+      <div class="qCard">
+        <h3>風</h3>
+        <p>蒸れが最大の敵。風通しで白点も守れる（鉢を詰めすぎない）。</p>
+      </div>
+      <div class="qCard">
+        <h3>温度</h3>
+        <p>目安：5℃以下は要注意。低温＋湿り気は危険なので乾かし気味に。</p>
+      </div>
+      <div class="qCard">
+        <h3>用土</h3>
+        <p>排水優先。粉を減らして粒で組む（環境で配合は微調整）。</p>
+      </div>
+    </div>
 
-    <nav class="nav" aria-label="Primary">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="growth-log.html">Growth Log</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="about.html">About</a>
-      <a href="care.html">Care</a>
-    </nav>
+    <div class="quickActions">
+      <a class="btn primary" href="care.html">初心者向けCare</a>
+      <a class="btn" href="care-deep.html">詳しく（Deep）</a>
+    </div>
+  </section>
+<section class="quickQA wrap" aria-label="よくある症状">
+  <div class="quickHead">
+    <h2>困ったとき（よくある症状）</h2>
+    <p class="sub">まずはこの3つだけ覚えればOK。詳しくはCareへ。</p>
   </div>
-</header>
 
+  <details class="qa" open>
+  <summary>しわしわ／腰折れになった</summary>
+  <div class="qa-body">
+    <p><strong>水不足</strong>か<strong>根の不調</strong>が多い。さらに、<strong>気温低下</strong>で“しわしわっぽく見える”こともある。</p>
 
+    <ul>
+      <li><strong>土が乾いている（生長期）</strong>：乾いたら「たっぷり潅水」で回復することが多い</li>
+      <li><strong>水をやっても戻らない</strong>：根の不調の可能性（蒸れ・根腐れ・根が無い）→風と乾きを見直す／植え替え検討</li>
+      <li><strong>寒くなった直後</strong>：気温低下による“しぼみ”のことも。無理に水を増やさず様子見</li>
+    </ul>
 
-<!-- ===== Category Nav (Bonsai-myo風) ===== -->
-<nav class="catNav" aria-label="Category">
-  <a href="gallery.html">写真で楽しむ</a>
-  <a href="care.html">育て方を学ぶ</a>
-  <a href="growth-log.html">成長記録を見る</a>
-  <a href="#types">種類別</a>
-  <a href="about.html">このサイトについて</a>
-  <a href="gallery.html">写真を検索する</a>
-</nav>
-
-  <!-- ===== Hero（Apple風：中央見出し + 巨大画像 / 全幅） ===== -->
- <!-- ===== Hero Full（迫力：写真全体＋文字重ね） ===== -->
-<section class="heroFull" aria-label="Hero">
-  <img class="heroFull-img" src="images/hero/asterias-hero.jpg" alt="兜丸">
-
-  <!-- 読みやすくするための暗いグラデ -->
-  <div class="heroFull-shade" aria-hidden="true"></div>
-
-  <div class="heroBar">ASTRO KABUTO</div>
-
-  <div class="heroFull-content">
-    
-
-    <h2 class="heroFull-title">アストロ兜さん</h2>
-
-    <p class="heroFull-sub">
-      今日も元気な兜丸たち。<br>
-      育てて、眺めて、ちょっと幸せ。
+    <p class="muted">
+      <strong>腰折れについて</strong>：一度腰折れした株は、冬に同じ症状が出やすいことがある。<br>
+      予防は「低温＋湿り気」を避けて、冬は乾かし気味＋風と置き場を安定させる。
     </p>
 
-    <!-- “筆っぽいフレーズ”の仮 -->
-    <p class="heroFull-brush">兜と暮らす。</p>
+    <p class="muted"><strong>一言：</strong>冬の腰折れは“水で治そう”としない。まず温度と乾き。</p>
+  </div>
+</details>
 
-    <div class="heroFull-actions">
-      <a class="btn primary" href="gallery.html">ギャラリーを見る</a>
-      <a class="btn ghost" href="#types">Types</a>
-    </div>
+
+    <details class="qa">
+  <summary>ぶよぶよする（柔らかい）</summary>
+  <div class="qa-body">
+    <p><strong>根腐れや内部の腐りの可能性が高い</strong>。特に「低温＋湿り気」「蒸れ」の後に起きやすい。</p>
+    <p class="muted"><strong>迷ったら“水やりで回復させよう”は危険。まず乾かす。</strong></p>
+    <ul>
+      <li>まず：<strong>水を止めて乾かす</strong>＋風を当てる（鉢間隔も空ける）</li>
+      <li>進行サイン：<strong>黒く溶ける／臭い／柔らかさが増す</strong> → 抜いて根を確認</li>
+      <li>軽い場合：乾かして落ち着けば、そのまま様子見</li>
+    </ul>
+  </div>
+</details>
+
+
+    <details class="qa">
+      <summary>白点が焼けた</summary>
+      <div class="qa-body">
+        <p>急な強光が原因。遮光（40〜60%目安）＋段階的に慣らす。焼けは“増やさない”が目的。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="quickActions">
+    <a class="btn primary" href="care.html">Careで全部見る</a>
+    <a class="btn" href="care-deep.html">詳しく（Deep）</a>
   </div>
 </section>
 
-
-<!-- ===== Feature Blocks (Bonsai-myo vibe) ===== -->
-<section class="features wrap" aria-label="Featured">
-  <div class="featureGrid">
-
-    <!-- Big (left) -->
-    <a class="fCard fBig" href="gallery.html">
-      <img src="images/hero/asterias-hero.jpg" alt="兜丸ギャラリー">
-      <div class="fOverlay">
-        <h3>兜丸の写真で楽しむ</h3>
-        <p>ギャラリーで成長の記録を見る</p>
-      </div>
-    </a>
-<!-- Right (top) : ギフト型（写真 + 文章） -->
-<a href="care.html" class="fCard fSmall fSplit">
-  <div class="fSplit-media">
-    <img src="images/hero/asterias-hero.jpg" alt="兜丸の育て方">
-    <div class="fOverlay">
-      <h3>自宅で楽しむ</h3>
-      <p>趣味の兜</p>
-    </div>
-  </div>
-
-  <div class="fSplit-body">
-    <p>
-      自宅で兜丸を楽しみたい方へ。<br>
-      置き場所・水やり・季節管理の基本をまとめます。
-    </p>
-  </div>
-</a>
-
-<!-- Right (bottom) : ギフト型（写真 + 文章） -->
-<a href="growth-log.html" class="fCard fSmall fSplit">
-  <div class="fSplit-media">
-    <img src="images/hero/asterias-hero.jpg" alt="成長記録">
-    <div class="fOverlay">
-      <h3>成長記録を見る</h3>
-      <p>毎月の変化をまとめて</p>
-    </div>
-  </div>
-
-  <div class="fSplit-body">
-    <p>
-      写真とメモで変化を追います。<br>
-      季節ごとの調子の波も記録していきます。
-    </p>
-  </div>
-</a>
-
-    
-
-  </div>
-
-  <div class="bannerRow">
-    <a class="fBanner" href="types.html">
-      <img src="images/hero/asterias-hero.jpg" alt="種類別">
-      <div class="fOverlay">
-        <h3>種類別に見る</h3>
-        <p>白点・模様・個体差を楽しむ</p>
-      </div>
-    </a>
-
-    <a class="fBanner" href="about.html">
-      <img src="images/hero/asterias-hero.jpg" alt="このサイトについて">
-      <div class="fOverlay">
-        <h3>このサイトについて</h3>
-        <p>Astro Kabuto の目的</p>
-      </div>
-    </a>
-  </div>
-</section>
-
-
-　<section class="homeTiles">
-  <a class="tile" href="gallery.html">
-    <img src="images/hero/asterias-hero.jpg" alt="">
-    <span>写真で楽しむ</span>
+  <section class="homeTiles" aria-label="Quick links">
+  <a class="tile" href="gallery.html#today">
+    <img src="images/illust/illust-sun-water-2048.png" alt="">
+    <span>今日の兜を見る</span>
   </a>
 
-  <a class="tile" href="care.html">
-    <img src="images/hero/asterias-hero.jpg" alt="">
-    <span>育て方を学ぶ</span>
+  <a class="tile" href="care.html#qa">
+    <img src="images/illust/illust-ghost-check-2048.png" alt="">
+    <span>症状から探す（Q&A）</span>
   </a>
 
-  <a class="tile" href="growth-log.html">
-    <img src="images/hero/asterias-hero.jpg" alt="">
-    <span>成長記録を見る</span>
+  <a class="tile" href="#community">
+    <img src="images/illust/illust-community-2048.png" alt="">
+    <span>投稿・質問（コミュニティ）</span>
   </a>
 </section>
-　
 
-  <!-- ===== Main (container width) ===== -->
-  <div class="container">
-    <main>
 
-      <!-- ===== Types ===== -->
-      <section class="types" id="types">
-        <div class="section-head">
-          <h2>Types</h2>
-          <p class="sub">タイプ別に魅力をまとめました（随時更新）</p>
-        </div>
+  <!-- ===== Community（将来の目玉をトップで目立たせる） ===== -->
+  <section id="community" class="communityTeaser wrap" aria-label="Community">
+    <div class="communityCard">
+      <div class="communityText">
+        <h2>コミュニティ（準備中）</h2>
+        <p class="sub">
+          コメント・質問箱・みんなの兜丸投稿・月テーマ…<br>
+          ここが最終的に一番アクティブな場所になる予定。
+        </p>
+      </div>
+      <div class="communityActions">
+        <a class="btn primary" href="#" aria-disabled="true">あなたの兜丸を投稿（準備中）</a>
+        <a class="btn" href="#" aria-disabled="true">質問する（準備中）</a>
+      </div>
+      <p class="muted" style="margin:10px 0 0;">※最初はGoogleフォーム導入でもOK。構想ページから作っていく。</p>
+    </div>
+  </section>
 
-        <div class="type-grid">
+  <!-- ===== Types ===== -->
+  <section class="types wrap" id="types">
+    <div class="section-head">
+      <h2>Types</h2>
+      <p class="sub">タイプ別に魅力をまとめました（随時更新）</p>
+    </div>
 
-          <a class="type-card" href="types-normal.html">
-            <div class="type-thumb">
-              <img src="images/types/index-normal.png" alt="通常兜">
-            </div>
-            <h3>通常兜</h3>
-            <p>基本形の美しさ。育成の基準になるタイプ。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+    <div class="type-grid">
+      <a class="type-card" href="types-normal.html">
+        <div class="type-thumb"><img src="images/types/index-normal.png" alt="通常兜"></div>
+        <h3>通常兜</h3>
+        <p>基本形の美しさ。育成の基準になるタイプ。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-super.html">
-            <div class="type-thumb">
-              <img src="images/types/index-super.png" alt="スーパー兜">
-            </div>
-            <h3>スーパー兜</h3>
-            <p>白点が厚く、迫力のある表情。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-super.html">
+        <div class="type-thumb"><img src="images/types/index-super.png" alt="スーパー兜"></div>
+        <h3>スーパー兜</h3>
+        <p>白点が厚く、迫力のある表情。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-ruri.html">
-            <div class="type-thumb">
-              <img src="images/types/index-ruri.png" alt="瑠璃兜">
-            </div>
-            <h3>瑠璃兜</h3>
-            <p>青緑〜瑠璃色の肌が美しい。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-ruri.html">
+        <div class="type-thumb"><img src="images/types/index-ruri.png" alt="瑠璃兜"></div>
+        <h3>瑠璃兜</h3>
+        <p>青緑〜瑠璃色の肌が美しい。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-miracle.html">
-            <div class="type-thumb">
-              <img src="images/types/index-miracle.png" alt="ミラクル兜">
-            </div>
-            <h3>ミラクル兜</h3>
-            <p>表情が独特で、見飽きない。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-miracle.html">
+        <div class="type-thumb"><img src="images/types/index-miracle.png" alt="ミラクル兜"></div>
+        <h3>ミラクル兜</h3>
+        <p>表情が独特で、見飽きない。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-isw.html">
-            <div class="type-thumb">
-              <img src="images/types/index-isw.png" alt="ISW兜">
-            </div>
-            <h3>ISW兜</h3>
-            <p>高密度の白点で、繊細な粒感が魅力。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-isw.html">
+        <div class="type-thumb"><img src="images/types/index-isw.png" alt="ISW兜"></div>
+        <h3>ISW兜</h3>
+        <p>高密度の白点で、繊細な粒感が魅力。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-royal-super.html">
-            <div class="type-thumb">
-              <img src="images/types/index-royal-super.png" alt="ロイヤルスーパー兜">
-            </div>
-            <h3>ロイヤルスーパー兜</h3>
-            <p>密度と品の両立。特別感のある存在。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-royal-super.html">
+        <div class="type-thumb"><img src="images/types/index-royal-super.png" alt="ロイヤルスーパー兜"></div>
+        <h3>ロイヤルスーパー兜</h3>
+        <p>密度と品の両立。特別感のある存在。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
 
-          <a class="type-card" href="types-hanazono.html">
-            <div class="type-thumb">
-              <img src="images/types/index-hanazono.png" alt="花園兜">
-            </div>
-            <h3>花園兜</h3>
-            <p>白点の散り方が華やか。</p>
-            <span class="type-more">さらに詳しく →</span>
-          </a>
+      <a class="type-card" href="types-hanazono.html">
+        <div class="type-thumb"><img src="images/types/index-hanazono.png" alt="花園兜"></div>
+        <h3>花園兜</h3>
+        <p>白点の散り方が華やか。</p>
+        <span class="type-more">さらに詳しく →</span>
+      </a>
+    </div>
+  </section>
 
-        </div>
-      </section>
-
-      <!-- ===== 下段カード ===== -->
-      <section class="cards">
-        <a class="card card-link" href="growth-log.html">
-          <h3>成長ログ</h3>
-          <p>日付・サイズ・用土・水やり・環境をまとめて記録。</p>
-        </a>
-
-        <a class="card card-link" href="gallery.html">
-          <h3>ギャラリー</h3>
-          <p>写真を月別・個体別に整理（随時更新）。</p>
-        </a>
-
-        <a class="card card-link" href="care.html">
-          <h3>育て方メモ</h3>
-          <p>遮光率、温度、用土、病害虫などの知見を整理。</p>
-        </a>
-
-        <div class="card">
-          <h3>コミュニティ</h3>
-          <p>将来：コメント＆チャットで世界の兜丸ファンと交流。</p>
-        </div>
-      </section>
-
-    </main>
-
-    <footer class="footer">
-      © <span id="y"></span> Astro Kabuto
-    </footer>
-  </div>
+  <footer class="footer">
+    © <span id="y"></span> Astro Kabuto
+  </footer>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
 
 
 

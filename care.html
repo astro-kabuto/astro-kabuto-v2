@@ -8,26 +8,29 @@
 </head>
 
 <body>
-  <div class="container">
-
-    <!-- Header（index / gallery と共通） -->
-    <header class="header">
-      <a class="brand" href="index.html">
-        <div class="logo"></div>
-        <div>
+  <!-- Header（トップと同じ構造） -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Astro Kabuto Home">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-text">
           <h1>Astro Kabuto</h1>
           <p>兜丸の成長記録サイト</p>
         </div>
       </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="growth-log.html">Growth Log</a>
         <a href="gallery.html">Gallery</a>
-        <a href="care.html">Care</a>
         <a href="about.html">About</a>
+        <a href="care.html" aria-current="page">Care</a>
       </nav>
-    </header>
+    </div>
+  </header>
+
+  <!-- 本文は wrap 幅で統一 -->
+  <main class="wrap">
 
     <!-- Page Title -->
     <section class="hero">
@@ -37,22 +40,91 @@
         実体験ベースで随時更新。
       </p>
     </section>
-<section class="card toc">
-  <h3>目次</h3>
-  <ul>
-    <li><a href="#spring">春（3〜5月）</a></li>
-    <li><a href="#summer">夏（6〜8月）</a></li>
-    <li><a href="#autumn">秋（9〜11月）</a></li>
-    <li><a href="#winter">冬（12〜2月）</a></li>
-    <li><a href="#soil">用土</a></li>
-    <li><a href="#mistakes">よくある失敗</a></li>
-  </ul>
+<section class="careQuick card" aria-label="初心者向けまとめ">
+  <h3>まずはこれだけ</h3>
+  <p class="sub">迷ったら「光・水・風・温度・用土」だけ守ればOK。</p>
+
+  <div class="careQuick-grid">
+    <div class="careQuick-item">
+      <strong>光</strong>
+      <p>春秋はしっかり。真夏は遮光40〜60%目安。置き場変更は徐々に。</p>
+    </div>
+    <div class="careQuick-item">
+      <strong>水</strong>
+      <p>生長期は乾いたらたっぷり。真夏は蒸れる日は控えめ。冬は断水寄り。</p>
+    </div>
+    <div class="careQuick-item">
+      <strong>風</strong>
+      <p>蒸れが最大の敵。鉢を詰めすぎない＋風通しで白点も守れる。</p>
+    </div>
+    <div class="careQuick-item">
+      <strong>温度</strong>
+      <p>目安：5℃以下は注意。低温＋湿り気が一番危険なので乾かし気味。</p>
+    </div>
+    <div class="careQuick-item">
+      <strong>用土</strong>
+      <p>排水重視。粉を減らして粒で組む（環境で微調整）。</p>
+    </div>
+  </div>
+
+  <div class="careQuick-actions">
+    <a class="btn primary" href="care-deep.html">詳しく（Deep）</a>
+  </div>
 </section>
+<section class="card careNote" id="care-note">
+  <h3>実例：実生2から5年生の管理メモ）</h3>
+  <p class="sub">まずは「光・風・乾き」を優先。兜は湿りすぎると腐りやすい。</p>
+
+  <div class="careNote-grid">
+    <div class="careNote-item">
+      <strong>環境</strong>
+      <p>日当たりが良く、暖かい場所が好き。風通しも確保。</p>
+      <p class="muted">温度目安：5〜30℃（兜にとって快適帯）</p>
+    </div>
+
+    <div class="careNote-item">
+      <strong>水やり目安</strong>
+      <ul>
+        <li><b>春</b>：週1回くらい、乾いてからたっぷり</li>
+        <li><b>夏</b>：週1でもOKだが、蒸れやすいので控えめ（乾き重視）</li>
+        <li><b>秋</b>：10日に1回くらい、量は控えめ</li>
+        <li><b>冬（12〜2月）</b>：ほぼ断水でもOK（低温＋湿り気が危険）</li>
+      </ul>
+    </div>
+
+    <div class="careNote-item">
+      <strong>植え替え（年1回の目安）</strong>
+      <ol>
+        <li>春先に鉢から抜く</li>
+        <li>根を数cm残してカット</li>
+        <li>日陰で20日ほど乾かす（乾燥させてから植える）</li>
+        <li>少し大きい鉢へ植え付け</li>
+        <li>植え付け後10日くらいして「少しだけ」水やり</li>
+        <li>その後は日光浴（急な環境変化は避ける）</li>
+      </ol>
+      <p class="muted">用土：市販のサボテン培養土でもOK（乾きやすさ優先）</p>
+    </div>
+  </div>
+
+  <p class="muted"><b>注意：</b>兜は腐りやすい。迷ったら「まず乾かす・風を当てる」。</p>
+</section>
+
+    <!-- 目次 -->
+    <section class="card toc">
+      <h3>目次</h3>
+      <ul>
+        <li><a href="#spring">春（3〜5月）</a></li>
+        <li><a href="#summer">夏（6〜8月）</a></li>
+        <li><a href="#autumn">秋（9〜11月）</a></li>
+        <li><a href="#winter">冬（12〜2月）</a></li>
+        <li><a href="#soil">用土</a></li>
+        <li><a href="#mistakes">よくある失敗</a></li>
+      </ul>
+    </section>
 
     <!-- 春 -->
     <section class="card" id="spring">
-
-        <img src="images/care/spring.jpg" alt="春の兜丸" class="care-img">
+      <img src="images/care/spring.jpg" alt="春の兜丸" class="care-img">
       <h3>春（3〜5月）</h3>
       <p>休眠から目覚める時期。徐々に水を再開。</p>
       <ul>
@@ -64,100 +136,204 @@
 
     <!-- 夏 -->
     <section class="card" id="summer">
-
-  <img src="images/care/summer.jpg" alt="夏の管理中の兜丸" class="care-img">
-
-  <h3>夏（6〜8月）</h3>
-  <p>
-    高温期は成長が鈍りやすく、蒸れと根腐れに注意。
-    無理に成長させず、守りの管理を意識する。
-  </p>
-  <ul>
-    <li>水やり：基本は控えめ、猛暑日は断水</li>
-    <li>遮光：40〜60%</li>
-    <li>注意点：風通しが悪いと腐りやすい</li>
-  </ul>
-</section>
-
+      <img src="images/care/summer.jpg" alt="夏の管理中の兜丸" class="care-img">
+      <h3>夏（6〜8月）</h3>
+      <p>
+        高温期は成長が鈍りやすく、蒸れと根腐れに注意。
+        無理に成長させず、守りの管理を意識する。
+      </p>
+      <ul>
+        <li>水やり：基本は控えめ、猛暑日は断水</li>
+        <li>遮光：40〜60%</li>
+        <li>注意点：風通しが悪いと腐りやすい</li>
+      </ul>
+    </section>
 
     <!-- 秋 -->
     <section class="card" id="autumn">
-
-        <img src="images/care/autumn.jpg" alt="秋の管理中の兜丸" class="care-img">
-
-  <h3>秋（9〜11月）</h3>
-  <p>
-    気温が下がり始め、兜丸が再び動きやすくなる時期。
-    夏のダメージ回復と、冬越しに向けた体作りを意識する。
-  </p>
-  <ul>
-    <li>水やり：気温を見ながら徐々に回数を増やす</li>
-    <li>日照：できるだけしっかり当てる</li>
-    <li>注意点：夜間の冷え込みと急な断水</li>
-  </ul>
-</section>
-
+      <img src="images/care/autumn.jpg" alt="秋の管理中の兜丸" class="care-img">
+      <h3>秋（9〜11月）</h3>
+      <p>
+        気温が下がり始め、兜丸が再び動きやすくなる時期。
+        夏のダメージ回復と、冬越しに向けた体作りを意識する。
+      </p>
+      <ul>
+        <li>水やり：気温を見ながら徐々に回数を増やす</li>
+        <li>日照：できるだけしっかり当てる</li>
+        <li>注意点：夜間の冷え込みと急な断水</li>
+      </ul>
+    </section>
 
     <!-- 冬 -->
     <section class="card" id="winter">
+      <img src="images/care/winter.jpg" alt="冬越し中の兜丸" class="care-img">
+      <h3>冬（12〜2月）</h3>
+      <p>
+        兜丸はほぼ休眠状態。
+        成長させようとせず、無事に冬を越すことを最優先にする。
+      </p>
+      <ul>
+        <li>水やり：基本は断水（暖房下でも与えない）</li>
+        <li>温度：5℃以上を目安に管理</li>
+        <li>置き場：風を避け、乾燥気味に</li>
+        <li>注意点：低温多湿は致命的</li>
+      </ul>
+    </section>
+<section class="card" id="troubles">
+  <h3>よくある症状と対処（Q&A）</h3>
+  <p class="sub">「原因を決め打ちしない」→ “環境と根”を順番に疑うのがコツ。</p>
 
-        <img src="images/care/winter.jpg" alt="冬越し中の兜丸" class="care-img">
+ <details class="qa" open>
+  <summary>Q. しわしわになった（へこんだ）／腰折れっぽい</summary>
+  <div class="qa-body">
+    <p><strong>よくある原因</strong>：乾きすぎ／根が弱って吸えていない／真夏の断水が長い／気温低下で“しぼみ”っぽく見える</p>
+    <ul>
+      <li><strong>土が完全に乾いている（生長期）</strong> → 「たっぷり潅水」で回復することが多い</li>
+      <li><strong>水をやっても戻らない</strong> → 根の不調を疑う（蒸れ・根腐れ・根が無い）→ 風通し改善＋植え替え検討</li>
+      <li><strong>寒くなった直後</strong> → 気温低下による症状のことも。無理に水を増やさず様子見</li>
+      <li><strong>真夏にへこむ</strong> → 無理に増やさず、夕方の軽い潅水は環境次第で検討</li>
+    </ul>
+    <p class="muted"><strong>メモ</strong>：兜は回復がゆっくり。数日〜1週間スパンで見る。</p>
+    <p class="muted"><strong>腰折れについて</strong>：一度腰折れした株は、冬に同じ症状が出やすいことがある。<br>
+    <strong>一言：</strong>冬の腰折れは“水で治そう”としない。まず温度と乾き。</p>
+  </div>
+</details>
 
-  <h3>冬（12〜2月）</h3>
-  <p>
-    兜丸はほぼ休眠状態。
-    成長させようとせず、無事に冬を越すことを最優先にする。
-  </p>
-  <ul>
-    <li>水やり：基本は断水（暖房下でも与えない）</li>
-    <li>温度：5℃以上を目安に管理</li>
-    <li>置き場：風を避け、乾燥気味に</li>
-    <li>注意点：低温多湿は致命的</li>
-  </ul>
+
+  <details class="qa">
+  <summary>Q. ぶよぶよする（柔らかい）</summary>
+  <div class="qa-body">
+    <p><strong>よくある原因</strong>：根腐れ／低温＋湿り気／蒸れ（内部が傷んでいる可能性が高い）</p>
+    <p class="muted"><strong>迷ったら“水やりで回復させよう”は危険。まず乾かす。</strong></p>
+    <ul>
+      <li>まず水やりを止めて乾かす（急にいじらない）</li>
+      <li>風を当てる・鉢間隔を空ける</li>
+      <li>改善しない／臭い／黒変が進む → 抜いて根を確認（植え替え）</li>
+    </ul>
+    <p class="muted">危険サイン：黒く溶ける、異臭、急激に柔らかい。</p>
+  </div>
+</details>
+
+
+  <details class="qa">
+    <summary>Q. 白点が茶色く焼けた</summary>
+    <div class="qa-body">
+      <p><strong>よくある原因</strong>：急な直射・遮光不足・強光に慣れていない</p>
+      <ul>
+        <li>遮光を増やす（40〜60%目安）</li>
+        <li>置き場所を急に変えたなら、1週間くらい段階的に慣らす</li>
+        <li>焼けは元に戻りにくいので「これ以上増やさない」が目的</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="qa">
+    <summary>Q. 黒い汚れ／黒ずみが出てきた</summary>
+    <div class="qa-body">
+      <p><strong>よくある原因</strong>：湿度が高い・風不足・カビ（特に梅雨〜夏）</p>
+      <ul>
+        <li>風通しを強化（サーキュレーター、鉢間隔、棚の高さ）</li>
+        <li>用土の粉を減らす（乾きが悪いと悪化しやすい）</li>
+        <li>まずは環境改善が優先（薬より“風と乾き”）</li>
+      </ul>
+    </div>
+  </details>
+<details class="qa">
+  <summary>Q. 植え替えはいつやる？</summary>
+  <div class="qa-body">
+    <p><strong>基本</strong>：年1回の目安。<strong>春先（動き出す前〜動き出し始め）</strong>がやりやすい。</p>
+    <ul>
+      <li>寒い時期の植え替えはリスクが上がる（低温＋湿り気が危険）</li>
+      <li>根の状態を見たい／乾きが悪い／不調が続くときは「春に」立て直し</li>
+    </ul>
+  </div>
+</details>
+
+<details class="qa">
+  <summary>Q. 植え替えで根を切ったあと、どうする？</summary>
+  <div class="qa-body">
+    <p><strong>ポイント</strong>：切った根はすぐ植えない。まず乾かしてから。</p>
+    <ul>
+      <li>根は数cm残してカット</li>
+      <li><strong>日陰でしっかり乾燥（目安：2〜3週間）</strong></li>
+      <li>植え付け後はすぐ水やりしない</li>
+    </ul>
+    <p class="muted">「湿ったまま植える」が一番腐りやすい。</p>
+  </div>
+</details>
+
+<details class="qa">
+  <summary>Q. 植え替え後、いつ水やりする？</summary>
+  <div class="qa-body">
+    <p><strong>目安</strong>：植え付け後<strong>10日くらいして</strong>から「少しだけ」。</p>
+    <ul>
+      <li>最初は少量 → 反応を見て通常ペースへ</li>
+      <li>気温が低い時期はさらに遅らせる（乾き優先）</li>
+    </ul>
+    <p class="muted"><strong>迷ったら：</strong>水で回復させようとしない。まず乾かす。</p>
+  </div>
+</details>
+
+  <details class="qa">
+    <summary>Q. 冬、置き場所はどこが安全？</summary>
+    <div class="qa-body">
+      <p><strong>基本</strong>：5℃以下に落ちるなら乾かし気味＋風避け。</p>
+      <ul>
+        <li>低温＋湿り気が一番危険（断水寄り）</li>
+        <li>結露する場所は避ける／朝の冷気が直撃しない場所へ</li>
+        <li>春に向けて「最低気温が安定したら」少量から再開</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="qa">
+  <summary>Q. 花が咲かない</summary>
+  <div class="qa-body">
+    <p><strong>よくある原因</strong>：株がまだ若い／光量不足／冬に休ませきれていない／生長期の栄養・水のメリハリ不足</p>
+    <ul>
+      <li><strong>株の成熟</strong>：小さい株は咲かないことが多い（焦らず“育てる年”も必要）</li>
+      <li><strong>光</strong>：春〜初夏はしっかり光を確保（ただし急に強光へは移動しない）</li>
+      <li><strong>冬の休眠</strong>：冬に乾かし気味＋低温多湿を避けて“休ませる”と花芽が乗りやすい</li>
+      <li><strong>水のメリハリ</strong>：生長期は乾いたらたっぷり（ダラダラ少量は弱りやすい）</li>
+    </ul>
+    <p class="muted">メモ：花は「環境が整って株が充実した結果」。毎年咲かなくても普通。</p>
+  </div>
+</details>
+
 </section>
 
-
-    <!-- 用土 -->
     <section class="card" id="soil">
-
-  <img src="images/care/soil.jpg" alt="兜丸の用土配合例" class="care-img">
-
-  <h3>用土</h3>
-  <p>
-    排水性を最優先にした用土構成。
-    栽培環境に合わせて微調整している。
-  </p>
+  <h3>用土（初心者はこれでOK）</h3>
+  <p>基本は<strong>市販のサボテン用培養土</strong>で大丈夫。</p>
   <ul>
-    <li>赤玉（小粒）：〇%</li>
-    <li>軽石：〇%</li>
-    <li>鹿沼土：〇%</li>
+    <li>不安なら：培養土＋軽石（2〜3割）で乾きやすくすると安心</li>
+    <li>粉が多い場合：ふるって微塵を減らすと腐りにくい</li>
   </ul>
+  <p class="muted">迷ったら「乾きやすい・風が通る」を優先。</p>
 </section>
 
 
     <!-- 失敗例 -->
-   <section class="card" id="mistakes">
+    <section class="card" id="mistakes">
+      <h3>よくある失敗（実体験）</h3>
+      <ul>
+        <li>
+          夏に水をやりすぎて根が弱った（2024年）
+          <br><small class="muted">→ 以後、猛暑日は断水に変更</small>
+        </li>
+        <li>遮光が足りず、直射日光で白点が焼けた</li>
+      </ul>
+    </section>
 
-  <h3>よくある失敗（実体験）</h3>
-  <ul>
-    <li>
-  夏に水をやりすぎて根が弱った（2024年）
-  <br><small class="muted">→ 以後、猛暑日は断水に変更</small>
-</li>
-
-    <li>遮光が足りず、直射日光で白点が焼けた</li>
-  </ul>
-</section>
-
-    <div class="footer">
+    <footer class="footer">
       © <span id="y"></span> Astro Kabuto
-    </div>
-
-  </div>
+    </footer>
+  </main>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
 
