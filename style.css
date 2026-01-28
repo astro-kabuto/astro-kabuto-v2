@@ -339,24 +339,7 @@ img{
   justify-content: flex-end;
 }
 
-/* モバイルは左下寄せの方が読みやすい */
-@media (max-width: 740px){
-  .heroFull{
-    height: 64vh;
-    margin: 12px 12px 22px;
-    max-width: none;
-  }
-  .heroFull-content{
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    max-width: none;
-    text-align: left;
-  }
-  .heroFull-actions{
-    justify-content: flex-start;
-  }
-}
+
 
 .btn.primary{
   background: var(--accent);
@@ -1460,47 +1443,199 @@ img{
 #lightboxImg{ position: relative; z-index: 10000; }
 
 
-
-
-
-
-
-
-/* ===== Hero mobile fix: ボタンを“兜の上”に乗せない ===== */
+/* =========================
+   HERO (Mobile) final fix
+   - 右上にボタンを縦並び
+   - 見切れ防止
+   - テキストは左上で安全
+   ========================= */
+/* =========================
+   HERO mobile FINAL（右上に縦並び / 兜が見える / 被り防止）
+   style.css の一番最後に貼る
+   ========================= */
 @media (max-width: 740px){
+
+  /* ヒーローの高さ：兜が見える余裕を確保 */
   .heroFull{
-    height: 78vh; /* 少し縦を確保 */
+    aspect-ratio: 4 / 5;
+    min-height: 420px;     /* 360〜460で好み調整 */
+    height: auto;
+    margin: 12px 12px 22px;
+    max-width: none;
   }
 
-  /* 兜を下側に寄せて「右側空き」を作る（数値は微調整OK） */
+  /* 兜を“中央〜少し下”にして、右上を空ける */
   .heroFull-img{
-    object-position: 55% 78%;
+    object-position: 50% 70%;  /* 65〜78で微調整（数値↑で兜が下に寄る） */
   }
 
-  /* テキストブロックを少し上に寄せる */
+  /* 上のASTRO KABUTOは左上寄せ＆小さめ（被りにくく） */
+  .heroBar{
+    top: 12px;
+    left: 16px;
+    transform: none;
+    font-size: 10px;
+    letter-spacing: .28em;
+    opacity: .9;
+  }
+
+  /* テキストは左上に置く（今の “タイトル/説明/兜と暮らす” はそのまま） */
   .heroFull-content{
-    top: 28px;
-    right: 18px;
-    left: 18px;            /* 幅を確保（右寄せの見た目は維持できる） */
+    top: 44px;
+    left: 16px;
+    right: 16px;
     bottom: auto;
     max-width: none;
-    text-align: right;
+    text-align: left;
   }
 
-  /* ボタンは“縦2列”でコンパクトにして上側に収める */
+  /* ボタンは「右上に縦並び」固定 */
   .heroFull-actions{
-    position: static;      /* 変な絶対配置を解除 */
-    margin-top: 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    position: absolute;
+    top: 120px;            /* ← ここで “ギャラリーを見る” の位置を上げ下げ */
+    right: 14px;
+    z-index: 6;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 10px;
-    justify-content: end;
+
+    width: min(190px, 46%);   /* 列の幅：狭くしたいなら 170px/42% など */
+  }
+
+  /* ボタン全体を小さく・囲いも狭く */
+  .heroFull-actions .btn{
+    height: 34px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  /* 青いボタンだけ：さらに少し細くして“青い囲い”を狭く */
+  .heroFull-actions .btn.primary{
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  /* 白ボタン：背景が強すぎるなら少し透けさせる（好み） */
+  .heroFull-actions .btn.ghost{
+    background: rgba(255,255,255,.88);
+    border-color: rgba(255,255,255,.28);
+    color: rgba(0,0,0,.78);
+  }
+}
+/* =========================
+   HERO mobile FINAL v2（強制上書き）
+   右上に縦並び / はみ出し防止 / 兜が見える
+   ========================= */
+@media (max-width: 740px){
+
+  .heroFull{
+    aspect-ratio: 4 / 5 !important;
+    min-height: 420px !important;
+    height: auto !important;
+    margin: 12px 12px 22px !important;
+    max-width: none !important;
+  }
+
+  .heroFull-img{
+    object-position: 50% 70% !important; /* 65〜78で微調整 */
+  }
+
+  .heroBar{
+    top: 12px !important;
+    left: 16px !important;
+    transform: none !important;
+    font-size: 10px !important;
+    letter-spacing: .28em !important;
+  }
+
+  .heroFull-content{
+    top: 30px !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: auto !important;
+    max-width: none !important;
+    text-align: left !important;
+  }
+
+  /* ★ここが本命：右上に縦並び固定 */
+  .heroFull-actions{
+    position: absolute !important;
+    top: 118px !important;        /* 上げたい→100、下げたい→130 */
+    right: 14px !important;
+    left: auto !important;
+    bottom: auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+
+    width: min(178px, 44vw) !important; /* はみ出し防止 */
+    margin: 0 !important;
   }
 
   .heroFull-actions .btn{
-    height: 40px;
-    padding: 0 14px;
-    font-size: 13px;
-    white-space: nowrap;
+    width: 100% !important;   /* これで切れない */
+    height: 34px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .heroFull-actions .btn.primary{
+    height: 32px !important;
+  }
+
+  .heroFull-actions .btn.ghost{
+    background: rgba(255,255,255,.88) !important;
+    border-color: rgba(255,255,255,.28) !important;
+    color: rgba(0,0,0,.78) !important;
+  }
+}
+/* =========================
+   HERO mobile: ボタンを「左上」に固定
+   ========================= */
+@media (max-width: 740px){
+
+  .heroFull{ position: relative; }
+
+  .heroFull-actions{
+    position: absolute !important;
+    top: 50px !important;     /* 上の余白 */
+    left: auto !important;    /* 左の余白 */
+    right: 100 !important;
+    bottom: auto !important;
+
+    width: min(100px, 52vw) !important;  /* 左上に収まる幅 */
+    z-index: 6 !important;
+
+    display: grid !important;
+    grid-template-columns: 1fr !important; /* 縦並び */
+    gap: 8px !important;
+  }
+
+  /* ボタンをコンパクトに */
+  .heroFull-actions .btn{
+    height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    border-radius: 999px !important;
+    justify-content: center !important;
+  }
+
+  /* 左上のボタンと文字が被るなら、文字を少し下げる */
+  .heroFull-content{
+    top: 34px !important;   /* ここを 56〜90 で調整 */
   }
 }
